@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="Test suite 1 FF - Grid Run" parallel="methods" thread-count="5">
+    <parameter name="browser" value="firefox"/>
+    <parameter name="platform" value="Windows"/>
+    <test name="Suite 1">
+        <groups>
+            <run>
+                <include name="suite1"/>
+            </run>
+        </groups>
+        <packages>
+            <package name="com.webdriver.tests.*"/>
+        </packages>
+    </test>
+</suite>

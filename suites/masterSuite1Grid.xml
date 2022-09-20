@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="Master Suite" parallel="methods" thread-count="5">
+    <suite-files>
+        <suite-file path="suite1ChGrid.xml"></suite-file>
+        <suite-file path="suite1FFGrid.xml"></suite-file>
+    </suite-files>
+</suite>
