@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Selenium Automation Tests" basedir="." default="all">
+
+	<property name="lib.dir" value="${basedir}/lib" />
+	<property name="src.dir" value="${basedir}/src" />
+	<property name="build.dir" value="target" />
+	<property name="classes.dir" value="${build.dir}/classes" />
+	<property name="suites.dir" value="${basedir}/suites" />
+	<property name="testng.path" value="${basedir}/lib/testng-6.8.5.jar" />
+
+	<!-- test run propertiess-->
+	<property name="test.suite" value="all-tests" />
+	<property name="testreport.dir" value="${build.dir}/test-output" />
+
+	<path id="build.classpath">
+		<fileset dir="${lib.dir}" includes="**/*.jar" />
+		<fileset dir="${src.dir}/com/webdriver/core" includes="**/*.java" />
+	</path>
+
+	<path id="runtime.classpath">
+		<fileset dir="${lib.dir}" includes="**/*.jar" />
+		<pathelement location="${config.dir}" />
+		<pathelement location="${suites.dir}" />
+		<pathelement location="${classes.dir}" />
+	</path>
+
+	<target name="clean" description="Delete the build directory.">
+		<!-- Delete the ${build} and ${testreport.dir} directories trees -->
+		<delete dir="${build.dir}" />
+	</target>
+
+	<target name="init" depends="clean" description="Create build directories.">
+		<!--Create the build directory structure used by compile -->
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${classes.dir}" />
+		<mkdir dir="${testreport.dir}" />
+	</target>
+
+	<target name="compile" depends="init" description="Compile tests.">
+		<!-- Compile the java code from ${src} into ${classes.dir} -->
+		<javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="build.classpath" debug="true" encoding="utf-8" />
+	</target>
+
+	<target name="run-test" depends="compile" description="Run test suite.">
+		<!-- Run a testng suite-->
+		<taskdef resource="testngtasks" classpath="${testng.path}" />
+
+		<testng classpathref="runtime.classpath" outputDir="${testreport.dir}" haltonfailure="true" verbose="5">
+			<xmlfileset dir="${suites.dir}" includes="${test.suite}.xml" />
+		</testng>
+	</target>
+
+	<target name="all" depends="run-test" description="Executes all targets." />
+
+</project>
